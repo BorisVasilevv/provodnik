@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
 
-@WebServlet("C:/*")
+@WebServlet(urlPatterns = {"/", "/*"})
 public class JspServlet extends HttpServlet {
 
     @Override
@@ -23,14 +24,27 @@ public class JspServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //resp.sendRedirect("/my-app/first-jsp.jsp");
-        String str="";
-        String uri=req.getRequestURI();
 
-        String path= uri.substring(8);
+        String path= req.getParameter("path");
+        if(path==null||path=="") {
+            path = System.getProperty("user.home");
+            String wayNow="/my-app/"+ path;
+            resp.sendRedirect(wayNow);
+        }
+
         File dir = new File(path);
-        req.setAttribute("path",path);
-        req.setAttribute("files", Arrays.asList(dir.listFiles()));
+        ArrayList<File> files= new ArrayList<File>();
+        ArrayList<File> directories = new ArrayList<File>();
+
+        for (File file:dir.listFiles()) {
+            if(file.isFile()) files.add(file);
+            else directories.add(file);
+        }
+
+        req.setAttribute("path", path);
+        req.setAttribute("files", files);
+        req.setAttribute("directories",directories);
         req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+
     }
 }

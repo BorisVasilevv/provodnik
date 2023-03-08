@@ -17,7 +17,7 @@
     <body>
 
     <h1>
-        <%=request.getAttribute("path")%>
+        ${path}
     </h1>
     <br>
     <%
@@ -28,21 +28,22 @@
     %>
     <hr/>
     <%
+        List<File> directories= (List<File>) request.getAttribute("directories");
         List<File> files= (List<File>) request.getAttribute("files");
 
-        for(File file: files){
-
-            if(!file.isFile()) {
-                String str=file.getName()+"/";
+        for(File file: directories){
+            String str=file.getName()+"/";
             %>
-                <a href='${str}'><%=str%></a>
-            <%
-            }
-            else{
-                out.print(file.getName());
-            }
-            %>
+                <a href=<%=str%>><%=str%></a>
         <br>
+        <%
+        }
+
+        for(File file: files){
+            String[] array=file.getName().split("/");
+            String fileName=array[array.length-1];%>
+            <a href=<%=fileName%>><%=fileName%></a>
+            <br>
         <%
         }%>
 
