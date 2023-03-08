@@ -6,7 +6,8 @@
 <%@ page import="java.lang.String" %>
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
-
+<%@ page import="java.net.URLEncoder"%>
+<%@ page import="java.nio.charset.StandardCharsets"%>
 
 <!doctype html>
 <html>
@@ -32,9 +33,10 @@
         List<File> files= (List<File>) request.getAttribute("files");
 
         for(File file: directories){
-            String str=file.getName()+"/";
+            String link="?path=" +URLEncoder.encode(file.getAbsolutePath(), StandardCharsets.UTF_8.toString())+"\\";
+            String str= file.getName()+"\\";
             %>
-                <a href=<%=str%>><%=str%></a>
+                <a href=<%=link%>> <%=str%></a>
         <br>
         <%
         }
