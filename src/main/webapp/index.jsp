@@ -70,6 +70,7 @@
             List<File> directories= (List<File>) request.getAttribute("directories");
             List<File> files= (List<File>) request.getAttribute("files");
 
+
             for(File dir: directories){
                 String link="?path=" + URLEncoder.encode(dir.getAbsolutePath(), StandardCharsets.UTF_8.toString())+"\\";
                 String str= dir.getName()+"\\";
@@ -87,14 +88,14 @@
                 </tr>
 
             <%
-            }
-
+            }%>
+            <form action="./download/" method="post">
+            <%
             for(File file: files){
-                String[] array=file.getName().split("/");
-                String fileName=array[array.length-1];%>
+                %>
                 <tr>
                 <td>
-                <a href=<%=fileName%>><%=fileName%></a>
+                <a href=<%="download/?path="+URLEncoder.encode(file.getAbsolutePath(), StandardCharsets.UTF_8.toString())%>><%=file.getName()%></a>
                 </td>
                 <td>
                 <%=String.format("%d %s", file.length(), "Byte")%>
@@ -107,6 +108,7 @@
             <%
             }
             %>
+            </form>
 
         </table>
     </body>
