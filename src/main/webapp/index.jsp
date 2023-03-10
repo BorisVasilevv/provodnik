@@ -7,7 +7,10 @@
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.net.URLEncoder"%>
+<%@ page import="java.nio.file.Files"%>
 <%@ page import="java.nio.charset.StandardCharsets"%>
+<%@ page import="java.nio.file.attribute.FileTime"%>
+
 
 <!doctype html>
 <html>
@@ -79,7 +82,7 @@
 
                 </td>
                 <td>
-                <%=dir.lastModified()%>
+                <%=Files.getLastModifiedTime(dir.toPath()).toString()%>
                 </td>
                 </tr>
 
@@ -97,7 +100,7 @@
                 <%=String.format("%d %s", file.length(), "Byte")%>
                 </td>
                 <td>
-                <%=file.lastModified()%>
+                <%=Files.getLastModifiedTime(file.toPath()).toString()%>
                 </td>
                 </tr>
 

@@ -1,7 +1,4 @@
 package SBapp;
-
-import com.sun.org.apache.xpath.internal.functions.FuncSubstring;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
+import java.text.DateFormat;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 @WebServlet(urlPatterns = {"/provodnik/"})
 public class JspServlet extends HttpServlet {
@@ -23,6 +21,7 @@ public class JspServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
+
     }
 
     @Override
@@ -38,6 +37,7 @@ public class JspServlet extends HttpServlet {
         setParamsToModel(req,resp,path);
         req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
+
 
 
     public void setParamsToModel(HttpServletRequest req, HttpServletResponse resp, String path){
