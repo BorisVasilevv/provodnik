@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = {"/just-servlet", "/servlet/*"})
+@WebServlet(urlPatterns = {"/","/just-servlet", "/servlet/*"})
 public class MainServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
