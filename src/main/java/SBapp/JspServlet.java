@@ -31,7 +31,6 @@ public class JspServlet extends HttpServlet {
             resp.sendRedirect(String.format("%s%s?path=%s", req.getContextPath(), req.getServletPath(), URLEncoder.encode(path, StandardCharsets.UTF_8.toString())));
         }
 
-
         setParamsToModel(req,resp,path);
         req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
@@ -43,10 +42,14 @@ public class JspServlet extends HttpServlet {
         ArrayList<File> files= new ArrayList<File>();
         ArrayList<File> directories = new ArrayList<File>();
 
-        for (File file:dir.listFiles()) {
-            if(file.isFile()) files.add(file);
-            else directories.add(file);
+
+        if(dir.listFiles()!=null){
+            for (File file:dir.listFiles()) {
+                if(file.isFile()) files.add(file);
+                else directories.add(file);
+            }
         }
+
 
         req.setAttribute("path", path);
         req.setAttribute("files", files);

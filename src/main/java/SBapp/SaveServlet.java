@@ -38,13 +38,8 @@ public class SaveServlet extends HttpServlet {
             } catch (FileNotFoundException e) {
                 resp.sendError(404);
             }
-
-            resp.sendRedirect(req.getRequestURI());
         } else {
             resp.sendError(404);
         }
-            int o=8;
-
-
     }
 }
