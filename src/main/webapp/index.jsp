@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.lang.String" %>
+<%@ page import="java.lang.StringBuffer" %>
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.net.URLEncoder"%>
@@ -44,17 +45,34 @@
         <%
         String strPath = (String) request.getAttribute("path");
         String[] arrayS=strPath.split("\\\\");
-        Arrays.asList(arrayS).removeAll(Arrays.asList(""));
+        String[] arrayS2=strPath.split("/");
         if(arrayS.length>1){
             String lastElem=arrayS[arrayS.length-1];
-            String stringToReplace="\\"+lastElem;
-            strPath= "?path="+URLEncoder.encode(strPath.replace(stringToReplace, ""), StandardCharsets.UTF_8.toString());
-            System.out.println(strPath);
+            StringBuffer strBuffer = new StringBuffer();
+            for(int i=0;i<arrayS.length-1;i++) {
+                strBuffer.append(arrayS[i]);
+                strBuffer.append('\\');
+            }
+            strPath= "?path="+URLEncoder.encode(strBuffer.toString(), StandardCharsets.UTF_8.toString());
             %>
             <a href=<%=strPath%>>Вверх</a>
-        <%
+            <%
+        }
+        else if(arrayS2.length>1){
+            String lastElem=arrayS[arrayS.length-1];
+            StringBuffer strBuffer = new StringBuffer("/");
+            for(int i=1;i<arrayS2.length-1;i++) {
+                strBuffer.append(arrayS2[i]);
+                strBuffer.append('/');
+            }
+            strPath= "?path="+URLEncoder.encode(strBuffer.toString(), StandardCharsets.UTF_8.toString());
+            %>
+            <a href=<%=strPath%>>Вверх</a>
+            <%
         }
         %>
+
+
 
 
         <br>
@@ -72,7 +90,7 @@
 
 
             for(File dir: directories){
-                String link="?path=" + URLEncoder.encode(dir.getAbsolutePath(), StandardCharsets.UTF_8.toString())+"\\";
+                String link="?path=" + URLEncoder.encode(dir.getAbsolutePath(), StandardCharsets.UTF_8.toString());
                 String str= dir.getName()+"\\";
                 %>
                 <tr>
