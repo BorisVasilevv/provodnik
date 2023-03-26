@@ -18,13 +18,15 @@ import java.util.Map;
 
 enum interaction{
     registration,
-    login
+    login,
+
+    logout
 }
 
-@WebServlet(urlPatterns = {"/registration", "/login"})
+@WebServlet(urlPatterns = {"/registration", "/login", "/logout"})
 public class RegistrationServlet extends HttpServlet {
 
-    final String[] nameOfInteraction=new String[]{"registration","login"};
+    final String[] nameOfInteraction=new String[]{"registration","login","logout"};
 
 
     @Override
@@ -46,7 +48,6 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
-
 
         String path= req.getRequestURI();
         String[] uri=path.split("/");
@@ -86,9 +87,7 @@ public class RegistrationServlet extends HttpServlet {
             for(User user:User.getListOfUsers()){
                 if(user.getEmail().equals(email)) {
                     if(user.getPassword().equals(password)){
-                        session.setAttribute("email", email);
-                        session.setAttribute("password", password);
-                        session.setAttribute( "name", user.getName());
+                        session.setAttribute("user", user);
                         resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
                         break;
                     }
@@ -101,6 +100,13 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("errorMessage", "Пользователь с email: "+email+" не зарегестрирован");
             req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
         }
+        else if(lastPath.equals(nameOfInteraction[interaction.logout.ordinal()])) {
+
+            session.setAttribute("user", null);
+            resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
+
+        }
+
 
     }
 
@@ -124,7 +130,6 @@ public class RegistrationServlet extends HttpServlet {
 
         return false;
     }
-
 
 
 }

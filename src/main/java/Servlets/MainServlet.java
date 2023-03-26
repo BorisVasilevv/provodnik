@@ -29,6 +29,26 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        HttpSession session = req.getSession(true);
+        Enumeration<String> attributeNames=session.getAttributeNames();
+
+        if(!attributeNames.hasMoreElements()){
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(),  "/registration"));
+        }
+        else {
+
+            if(session.getAttribute("user")==null) {
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(),  "/registration"));
+            }
+            else {
+                req.setAttribute("isUserLogin", true);
+                User user=(User) session.getAttribute("user");
+                req.setAttribute("login",user.getName());
+            }
+        }
+
+
+
         String path=req.getParameter("path");
         if((path==null)) {
             path = System.getProperty("user.home");
@@ -60,22 +80,8 @@ public class MainServlet extends HttpServlet {
         req.setAttribute("path", path);
         req.setAttribute("files", files);
         req.setAttribute("directories",directories);
-        HttpSession session = req.getSession(true);
-        Enumeration<String> attributeNames=session.getAttributeNames();
 
-        if(!attributeNames.hasMoreElements()){
-            req.setAttribute("isUserLogin", false);
-        }
-        else {
 
-            if(session.getAttribute("user")==null) {
-                req.setAttribute("isUserLogin", false);
-            }
-            else {
-                req.setAttribute("isUserLogin", true);
-                User user=(User) session.getAttribute("user");
-                req.setAttribute("login",user.getName());
-            }
-        }
+
     }
 }

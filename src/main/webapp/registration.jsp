@@ -34,10 +34,10 @@
 
         </form>
         <br>
-        <form method="get" action="./provodnik">
+        <!-- <form method="get" action="./provodnik">
             <button>Отмена</button>
-        </form>
-        <br>
+        </form>-->
+
         <form method="get" action="./login">
             <button>Перейти ко входу</button>
         </form>

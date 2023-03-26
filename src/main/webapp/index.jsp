@@ -50,7 +50,7 @@
     <h1>
         ${path}
     </h1>
-    <% boolean isUserLogin=(boolean) request.getAttribute("isUserLogin");
+    <!--<% boolean isUserLogin=(boolean) request.getAttribute("isUserLogin");
 
     if(!isUserLogin){%>
         <form method="get" action="./registration">
@@ -66,20 +66,21 @@
         </form>
     <%
     }
-    else{%>
+    else{%>-->
 
         <div class="registration">
             <b>Вы вошли в систему, как <%=request.getAttribute("login")%><b>
         </div>
         </form>
 
-        <form method="get" action="./logout">
-        <div class="login">
-            <button>Выйти</button>
-        </div>
+        <form method="POST" action="./logout">
+            <div class="login">
+                <button>Выйти</button>
+            </div>
+        </form>
 
-    <%
-    }%>
+    <!--<%
+    }%>-->
 
 
     <br>
@@ -139,7 +140,7 @@
 
             for(File dir: directories){
                 String link="?path=" + URLEncoder.encode(dir.getAbsolutePath(), StandardCharsets.UTF_8.toString());
-                String str= dir.getName()+"\\";
+                String str= "\\" + dir.getName();
                 %>
                 <tr>
                 <td>

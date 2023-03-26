@@ -25,11 +25,11 @@
 
     </form>
     <br>
-    <form method="get" action="http://localhost:8080/my-app/provodnik">
+    <!--<form method="get" action="http://localhost:8080/my-app/provodnik">
         <button>Отмена</button>
-    </form>
-    <br>
-    <form method="get" action="http://localhost:8080/my-app/registration">
+    </form>-->
+
+    <form method="get" action="./registration">
         <button>Перейти к регистрации</button>
     </form>
 
