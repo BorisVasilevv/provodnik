@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 
-@WebServlet("/provodnik/download")
+@WebServlet("/download")
 public class SaveServlet extends HttpServlet {
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
@@ -25,6 +25,7 @@ public class SaveServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req,resp);
     }
 
     @Override
