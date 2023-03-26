@@ -1,4 +1,4 @@
-package SBapp;
+package Servlets;
 
 
 import javax.servlet.ServletConfig;
@@ -7,13 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/","/just-servlet", "/servlet/*"})
-public class MainServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);

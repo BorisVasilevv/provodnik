@@ -1,20 +1,24 @@
-package SBapp;
+package Servlets;
+import accounts.User;
+
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 
-@WebServlet(urlPatterns = {"/provodnik/"})
-public class JspServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/provodnik"})
+public class MainServlet extends HttpServlet {
+
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +36,9 @@ public class JspServlet extends HttpServlet {
         }
 
         setParamsToModel(req,resp,path);
+
         req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+
     }
 
 
@@ -54,8 +60,22 @@ public class JspServlet extends HttpServlet {
         req.setAttribute("path", path);
         req.setAttribute("files", files);
         req.setAttribute("directories",directories);
+        HttpSession session = req.getSession(true);
+        Enumeration<String> attributeNames=session.getAttributeNames();
 
+        if(!attributeNames.hasMoreElements()){
+            req.setAttribute("isUserLogin", false);
+        }
+        else {
+
+            if(session.getAttribute("user")==null) {
+                req.setAttribute("isUserLogin", false);
+            }
+            else {
+                req.setAttribute("isUserLogin", true);
+                User user=(User) session.getAttribute("user");
+                req.setAttribute("login",user.getName());
+            }
+        }
     }
-
-
 }

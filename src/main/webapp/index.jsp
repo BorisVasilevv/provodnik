@@ -25,8 +25,24 @@
             text-align: left;
           }
 
-        </style>
+          .login {
+              position: absolute;
+              right: 30px;
+              top: 40px;
+          }
+
+          .registration {
+              position: absolute;
+              right: 100px;
+              top: 40px;
+          }
+
+</style>
 <title>First</title>
+<script>
+
+
+</script>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 </head>
     <body>
@@ -34,6 +50,38 @@
     <h1>
         ${path}
     </h1>
+    <% boolean isUserLogin=(boolean) request.getAttribute("isUserLogin");
+
+    if(!isUserLogin){%>
+        <form method="get" action="./registration">
+        <div class="registration">
+            <button>Зарегистрироваться</button>
+        </div>
+        </form>
+
+        <form method="get" action="./login">
+        <div class="login">
+            <button>Войти</button>
+        </div>
+        </form>
+    <%
+    }
+    else{%>
+
+        <div class="registration">
+            <b>Вы вошли в систему, как <%=request.getAttribute("login")%><b>
+        </div>
+        </form>
+
+        <form method="get" action="./logout">
+        <div class="login">
+            <button>Выйти</button>
+        </div>
+
+    <%
+    }%>
+
+
     <br>
     <%
         Date date =new Date();
@@ -107,13 +155,13 @@
 
             <%
             }%>
-            <form action="./download/" method="post">
+            <form action="./download" method="post">
             <%
             for(File file: files){
                 %>
                 <tr>
                 <td>
-                <a href=<%="download/?path="+URLEncoder.encode(file.getAbsolutePath(), StandardCharsets.UTF_8.toString())%>><%=file.getName()%></a>
+                <a href=<%="download?path="+URLEncoder.encode(file.getAbsolutePath(), StandardCharsets.UTF_8.toString())%>><%=file.getName()%></a>
                 </td>
                 <td>
                 <%=String.format("%d %s", file.length(), "Byte")%>
