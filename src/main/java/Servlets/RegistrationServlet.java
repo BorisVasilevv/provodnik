@@ -1,6 +1,7 @@
 package Servlets;
 
 import accounts.User;
+import main.Database;
 
 
 import javax.servlet.ServletException;
@@ -66,12 +67,12 @@ public class RegistrationServlet extends HttpServlet {
                 String password=parameterMap.get("password")[0];
                 String email=parameterMap.get("email")[0];
 
-                if (!User.isUserWithEmailExist(email)) {
+                User testUser= Database.findUserByEmail(email);
+
+                if (testUser==null) {
                     User user = new User(name, password, email);
-                    User.getListOfUsers().add(user);
-
+                    Database.addUser(user);
                     session.setAttribute("user", user);
-
 
                     resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/provodnik"));
                 }
@@ -84,26 +85,30 @@ public class RegistrationServlet extends HttpServlet {
         else if(lastPath.equals(nameOfInteraction[interaction.login.ordinal()])){
             String email=parameterMap.get("email")[0];
             String password=parameterMap.get("password")[0];
-            for(User user:User.getListOfUsers()){
-                if(user.getEmail().equals(email)) {
-                    if(user.getPassword().equals(password)){
-                        session.setAttribute("user", user);
-                        resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
-                        break;
-                    }
-                    else {
-                        req.setAttribute("errorMessage", "Неверный пароль для email: "+email);
-                        req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
-                    }
+
+            User user= Database.findUserByEmail(email);
+            if(user!=null)
+            {
+                if(user.getPassword().equals(password)){
+                    session.setAttribute("user", user);
+                    resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
+
+                }
+                else {
+                    req.setAttribute("errorMessage", "Неверный пароль для email: "+email);
+                    req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
                 }
             }
-            req.setAttribute("errorMessage", "Пользователь с email: "+email+" не зарегестрирован");
-            req.getServletContext().getRequestDispatcher("/registration.jsp").forward(req, resp);
+            else {
+                req.setAttribute("errorMessage", "Пользователь с email: " + email + " не зарегестрирован");
+                req.getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
+            }
         }
         else if(lastPath.equals(nameOfInteraction[interaction.logout.ordinal()])) {
 
             session.setAttribute("user", null);
             resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
+            session.invalidate();
 
         }
 

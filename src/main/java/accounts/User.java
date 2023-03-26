@@ -28,14 +28,5 @@ public class User {
 
     private static ArrayList<User> users=new ArrayList<User>();
 
-    public static ArrayList<User> getListOfUsers(){
-        return users;
-    }
 
-    public static boolean isUserWithEmailExist(String email){
-        for (User user: users){
-            if(user.getEmail().equals(email)) return true;
-        }
-        return false;
-    }
 }
