@@ -1,9 +1,10 @@
 package Servlets;
 
 import accounts.User;
+import dao.UsersDataSet;
 import jakarta.servlet.http.HttpSession;
 import main.DatabaseService;
-import main.JBDC;
+
 
 
 import jakarta.servlet.ServletException;
@@ -55,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
         String[] uri=path.split("/");
         String lastPath=uri[uri.length-1];
         Map<String,String[]> parameterMap=req.getParameterMap();
-
+        DatabaseService dbService= new DatabaseService();
 
         if(lastPath.equals(nameOfInteraction[interaction.registration.ordinal()])) {
 
@@ -67,14 +68,14 @@ public class RegistrationServlet extends HttpServlet {
                 String name=parameterMap.get("login")[0];
                 String password=parameterMap.get("password")[0];
                 String email=parameterMap.get("email")[0];
-                DatabaseService dbService= new DatabaseService();
+                UsersDataSet set=dbService.getUser(email);
 
 
-                User testUser= JBDC.findUserByEmail(email);
 
-                if (testUser==null) {
+
+                if (set==null) {
                     User user = new User(name, password, email);
-                    JBDC.addUser(user);
+                    dbService.addUser(user);
                     session.setAttribute("user", user);
 
                     resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/provodnik"));
@@ -89,11 +90,13 @@ public class RegistrationServlet extends HttpServlet {
             String email=parameterMap.get("email")[0];
             String password=parameterMap.get("password")[0];
 
-            User user= JBDC.findUserByEmail(email);
-            if(user!=null)
+            UsersDataSet set=dbService.getUser(email);
+            if(set!=null)
             {
-                if(user.getPassword().equals(password)){
-                    session.setAttribute("user", user);
+                if(set.getPassword().equals(password)){
+                    session.setAttribute("user", new User(set.getName(),
+                                                             set.getPassword(),
+                                                             set.getEmail()));
                     resp.sendRedirect(String.format("%s%s",req.getContextPath(),"/provodnik"));
 
                 }

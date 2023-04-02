@@ -18,7 +18,7 @@
         <version>11.0.14</version>
 
         <configuration>
-          <scanIntervalSeconds>10</scanIntervalSeconds>
+
           <webApp>
             <contextPath>/my-app</contextPath>
           </webApp>
