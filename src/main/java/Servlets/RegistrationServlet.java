@@ -1,7 +1,8 @@
 package Servlets;
 
 import accounts.User;
-import main.Database;
+import main.DatabaseService;
+import main.JBDC;
 
 
 import javax.servlet.ServletException;
@@ -66,12 +67,14 @@ public class RegistrationServlet extends HttpServlet {
                 String name=parameterMap.get("login")[0];
                 String password=parameterMap.get("password")[0];
                 String email=parameterMap.get("email")[0];
+                DatabaseService dbService= new DatabaseService();
 
-                User testUser= Database.findUserByEmail(email);
+
+                User testUser= JBDC.findUserByEmail(email);
 
                 if (testUser==null) {
                     User user = new User(name, password, email);
-                    Database.addUser(user);
+                    JBDC.addUser(user);
                     session.setAttribute("user", user);
 
                     resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/provodnik"));
@@ -86,7 +89,7 @@ public class RegistrationServlet extends HttpServlet {
             String email=parameterMap.get("email")[0];
             String password=parameterMap.get("password")[0];
 
-            User user= Database.findUserByEmail(email);
+            User user= JBDC.findUserByEmail(email);
             if(user!=null)
             {
                 if(user.getPassword().equals(password)){

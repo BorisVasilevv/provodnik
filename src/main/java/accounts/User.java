@@ -26,7 +26,5 @@ public class User {
         return name;
     }
 
-    private static ArrayList<User> users=new ArrayList<User>();
-
 
 }

@@ -3,7 +3,7 @@ package main;
 import accounts.User;
 import java.sql.*;
 
-public class Database {
+public class JBDC {
 
     public static final String NAME_USER="root";
 
