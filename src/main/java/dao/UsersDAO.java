@@ -1,13 +1,12 @@
 package dao;
 
-import accounts.User;
 
-import jakarta.persistence.Query;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
-;import java.util.List;
+
 
 public class UsersDAO {
 
