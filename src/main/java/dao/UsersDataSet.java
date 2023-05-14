@@ -8,7 +8,7 @@ public class UsersDataSet {
 
     @Id
     @Column(name = "id", unique = true,nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name",nullable = false)

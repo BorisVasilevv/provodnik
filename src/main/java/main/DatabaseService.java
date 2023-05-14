@@ -26,6 +26,7 @@ public class DatabaseService {
 
     private static Configuration getConfiguration(){
         Configuration configuration= new Configuration();
+
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/bdnar");
